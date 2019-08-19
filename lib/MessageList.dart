@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mail_app_practise/model/messages.dart';
 
 class MessageList extends StatefulWidget {
   @override
@@ -9,13 +10,29 @@ class MessageList extends StatefulWidget {
 }
 
 class _MessageListState extends State<MessageList> {
-  List messages = [];
+  List<Message> messages = [];
 
   Future loadMessageList() async {
-    var content = await rootBundle.loadString('data/message.json');
-    var collection = json.decode(content);
+    //load the json file.
+    String content = await rootBundle.loadString('data/message.json');
+
+    //decode the json, since first symbol is square bracket , our json is the "list of dynamic" so it return list<dynamic>
+    //if first symbol was { then it would return Map<String,dynamic>.
+
+    List<dynamic> collection = json.decode(content);
+
     setState(() {
-      messages = collection;
+      //use contructor to typecast the json into object.
+      messages = collection.map((json) => Message.fromJson(json)).toList();
+
+      // above contructor does the same task as below constructor.
+      //   messages = collection
+      //       .map((json) => Message(
+      //             subject: json['subject'],
+      //             body: json['body'],
+      //           ))
+      //       .toList();
+      // });
     });
   }
 
@@ -34,12 +51,12 @@ class _MessageListState extends State<MessageList> {
       body: ListView.separated(
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (BuildContext context, int index) {
-          final Map message = messages[index];
+          Message message = messages[index];
 
           return ListTile(
-            title: Text(message['subject']),
+            title: Text(message.subject),
             subtitle: Text(
-              message['body'],
+              message.body,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
