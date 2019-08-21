@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/model/message.dart';
+import 'package:mail_app_practise/widgets/ComposeBtn.dart';
 
 class MessageList extends StatefulWidget {
   @override
@@ -63,6 +64,7 @@ class _MessageListState extends State<MessageList> {
                       child: Text("A"),
                     ),
                     isThreeLine: true,
+                    onTap: (){}
                   );
                 },
                 itemCount: _messages.length,
@@ -74,6 +76,7 @@ class _MessageListState extends State<MessageList> {
           }
         },
       ),
+      floatingActionButton: ComposeBtn(),
     );
   }
 }
