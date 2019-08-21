@@ -7,20 +7,11 @@ class MessageList extends StatefulWidget {
 }
 
 class _MessageListState extends State<MessageList> {
-  List<Message> messages = [];
-  bool isLoading = true;
-
-  Future loadMessageList() async {
-    List<Message> _messages = await Message.browse();
-    setState(() {
-      messages = _messages;
-      isLoading = false;
-    });
-  }
+  Future<List<Message>> messages;
 
   @override
   void initState() {
-    loadMessageList();
+    messages = Message.browse();
     super.initState();
   }
 
@@ -29,29 +20,60 @@ class _MessageListState extends State<MessageList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Email App'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                messages = Message.browse();
+              });
+            },
+          )
+        ],
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
-              itemBuilder: (BuildContext context, int index) {
-                Message message = messages[index];
-
-                return ListTile(
-                  title: Text(message.subject),
-                  subtitle: Text(
-                    message.body,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  leading: CircleAvatar(
-                    child: Text("A"),
-                  ),
-                  isThreeLine: true,
+      body: FutureBuilder(
+        future: messages,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('There is an error : ${snapshot.error}'),
                 );
-              },
-              itemCount: messages.length,
-            ),
+              }
+              List<Message> _messages = snapshot.data;
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                itemBuilder: (BuildContext context, int index) {
+                  Message message = _messages[index];
+                  return ListTile(
+                    title: Text(message.subject),
+                    subtitle: Text(
+                      message.body,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    leading: CircleAvatar(
+                      child: Text("A"),
+                    ),
+                    isThreeLine: true,
+                  );
+                },
+                itemCount: _messages.length,
+              );
+            default:
+              return Center(
+                child: Text('Something went wrong !!!'),
+              );
+          }
+        },
+      ),
     );
   }
 }
