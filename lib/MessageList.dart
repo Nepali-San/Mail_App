@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:mail_app_practise/widgets/ComposeBtn.dart';
 
@@ -64,7 +65,15 @@ class _MessageListState extends State<MessageList> {
                       child: Text("A"),
                     ),
                     isThreeLine: true,
-                    onTap: (){}
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageDetail(
+                              title: message.subject, body: message.body),
+                        ),
+                      );
+                    },
                   );
                 },
                 itemCount: _messages.length,
