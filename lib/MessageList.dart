@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mail_app_practise/model/messages.dart';
+import 'package:mail_app_practise/model/message.dart';
 
 class MessageList extends StatefulWidget {
   @override

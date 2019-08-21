@@ -22,5 +22,9 @@
     {
         "subject": "Good job",
         "body": "This is the body of the message."
+    },
+    {
+        "subject": "json serialization",
+        "body": "This is the body of the message."
     }
 ]
