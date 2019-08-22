@@ -21,8 +21,8 @@ class Message {
     //load the json file.
     // String content = await rootBundle.loadString('data/message.json');
 
-    http.Response response = await http.get(
-        "http://www.mocky.io/v2/5d5d4f4d330000078057b924??mocky-delay=2000ms");
+    http.Response response =
+        await http.get("http://www.mocky.io/v2/5d5d4f4d330000078057b924");
     String content = response.body;
 
     //decode the json, since first symbol is square bracket , our json is the "list of dynamic" so it return list<dynamic>

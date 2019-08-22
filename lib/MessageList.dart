@@ -9,12 +9,18 @@ class MessageList extends StatefulWidget {
 }
 
 class _MessageListState extends State<MessageList> {
-  Future<List<Message>> messages;
+  Future<List<Message>> future;
+  List<Message> messages = [];
 
   @override
   void initState() {
-    messages = Message.browse();
     super.initState();
+    fetch();
+  }
+
+  Future fetch() async {
+    future = Message.browse();
+    messages = await future;
   }
 
   @override
@@ -27,14 +33,14 @@ class _MessageListState extends State<MessageList> {
             icon: Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                messages = Message.browse();
+                fetch();
               });
             },
           )
         ],
       ),
       body: FutureBuilder(
-        future: messages,
+        future: future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -53,16 +59,16 @@ class _MessageListState extends State<MessageList> {
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (BuildContext context, int index) {
-                  Message message = _messages[index];
+                  Message _message = _messages[index];
                   return ListTile(
-                    title: Text(message.subject),
+                    title: Text(_message.subject),
                     subtitle: Text(
-                      message.body,
+                      _message.body,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     leading: CircleAvatar(
-                      child: Text("A"),
+                      child: Text("${index + 1}"),
                     ),
                     isThreeLine: true,
                     onTap: () {
@@ -70,7 +76,7 @@ class _MessageListState extends State<MessageList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MessageDetail(
-                              title: message.subject, body: message.body),
+                              title: _message.subject, body: _message.body),
                         ),
                       );
                     },
@@ -85,7 +91,19 @@ class _MessageListState extends State<MessageList> {
           }
         },
       ),
-      floatingActionButton: ComposeBtn(),
+      // since the data used by composeBtn depends on async , we need to wrap it with
+      // future builder
+      // Else we will be rendering this widget before with get messages list and we will pass empty list
+      floatingActionButton: FutureBuilder(
+        future: future,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            return ComposeBtn(messages: messages);
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
