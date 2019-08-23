@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/MessageComponse.dart';
+import 'package:mail_app_practise/pages/MessageComponse.dart';
 import 'package:mail_app_practise/model/message.dart';
 
 class ComposeBtn extends StatelessWidget {

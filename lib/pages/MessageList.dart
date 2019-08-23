@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/MessageDetails.dart';
+import 'package:mail_app_practise/pages/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:mail_app_practise/widgets/ComposeBtn.dart';
 
@@ -56,6 +56,7 @@ class _MessageListState extends State<MessageList> {
                 );
               }
               List<Message> _messages = snapshot.data;
+              
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (BuildContext context, int index) {
