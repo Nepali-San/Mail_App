@@ -25,12 +25,17 @@ class _MessageComposeState extends State<MessageCompose> {
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  validator: (value) =>
+                      !value.contains('@') ? "must be a valid email" : null,
                   onSaved: (value) => to = value,
                   decoration: InputDecoration(
                     labelText: 'To',
                   ),
                 ),
                 TextFormField(
+                  validator: (value) => value.length < 6
+                      ? "Must have more than 5 characters"
+                      : null,
                   onSaved: (value) => subject = value,
                   decoration: InputDecoration(
                     labelText: 'Subject',
@@ -40,6 +45,9 @@ class _MessageComposeState extends State<MessageCompose> {
                   height: 60.0,
                 ),
                 TextFormField(
+                  validator: (value) => value.length < 6
+                      ? "Must have more than 5 characters"
+                      : null,
                   onSaved: (value) => body = value,
                   decoration: InputDecoration(hintText: 'Body'),
                   maxLines: 5,
@@ -52,9 +60,11 @@ class _MessageComposeState extends State<MessageCompose> {
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    this.key.currentState.save();
-                    Message msg = Message(body: body, subject: subject);                    
-                    Navigator.pop(context, msg);
+                    if (this.key.currentState.validate()) {
+                      this.key.currentState.save();
+                      Message msg = Message(body: body, subject: subject);
+                      Navigator.pop(context, msg);
+                    }
                   },
                 )
               ],
