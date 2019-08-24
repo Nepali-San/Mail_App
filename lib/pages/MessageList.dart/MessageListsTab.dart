@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mail_app_practise/pages/MessageList.dart/MessageList1.dart';
-import 'package:mail_app_practise/pages/MessageList.dart/MessageList2.dart';
+import 'package:mail_app_practise/pages/MessageList.dart/MessageList.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
 
 class MessageLists extends StatelessWidget {
@@ -34,8 +33,12 @@ class MessageLists extends StatelessWidget {
         drawer: AppDrawer(),
         body: TabBarView(
           children: <Widget>[
-            MessageList1(),
-            MessageList2(),
+            MessageList(
+              status: 'important',
+            ),
+            MessageList(
+              status: 'others',
+            ),
           ],
         ),
       ),

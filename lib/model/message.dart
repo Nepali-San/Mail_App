@@ -17,12 +17,15 @@ class Message {
 
   Map<String, dynamic> toJson() => _$MessageToJson(this);
 
-  static Future<List<Message>> browse() async {
+  static Future<List<Message>> browse({String status = 'important'}) async {
     //load the json file.
     // String content = await rootBundle.loadString('data/message.json');
 
-    http.Response response =
-        await http.get("http://www.mocky.io/v2/5d5d4f4d330000078057b924");
+    String url = status == 'important'
+        ? "http://www.mocky.io/v2/5d5d4f4d330000078057b924"
+        : "http://www.mocky.io/v2/5d61641432000049008e60c5";
+
+    http.Response response = await http.get(url);
     String content = response.body;
 
     //decode the json, since first symbol is square bracket , our json is the "list of dynamic" so it return list<dynamic>

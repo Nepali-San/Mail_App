@@ -3,12 +3,16 @@ import 'package:mail_app_practise/pages/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class MessageList1 extends StatefulWidget {
+class MessageList extends StatefulWidget {
+  final String status;
+
+  MessageList({this.status = 'important'});
+
   @override
   _MessageListState createState() => _MessageListState();
 }
 
-class _MessageListState extends State<MessageList1> {
+class _MessageListState extends State<MessageList> {
   Future<List<Message>> future;
   List<Message> messages = [];
 
@@ -19,7 +23,7 @@ class _MessageListState extends State<MessageList1> {
   }
 
   Future fetch() async {
-    future = Message.browse();
+    future = Message.browse(status: widget.status);
     messages = await future;
   }
 
