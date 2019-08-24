@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/pages/MessageList.dart';
+import 'package:mail_app_practise/pages/MessageList.dart/MessageLists.dart';
 
 void main() => runApp(EmailApp());
 
@@ -13,7 +13,8 @@ class EmailApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Colors.lightBlueAccent,
       ),
-      home: MessageList(),
+      //MessageLists widget contains tab with two different pages.
+      home: MessageLists(),
     );
   }
 }
