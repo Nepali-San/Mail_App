@@ -26,6 +26,74 @@ class _MessageListState extends State<MessageList> {
 
   @override
   Widget build(BuildContext context) {
+    var drawerItems = Drawer(
+      child: Column(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountEmail: Text('123here.comes.san@gmail.com'),
+            accountName: Text('San Neupane'),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage(
+                "https://i.pinimg.com/originals/a5/76/46/a576463a3b5a9e8cb2a22b47c45a6a7f.jpg",
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.inbox),
+            title: Text(
+              'Inbox',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            trailing: Chip(
+              label: Text('11', style: TextStyle(fontWeight: FontWeight.bold)),
+              backgroundColor: Colors.blue[100],
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.userEdit),
+            title: Text(
+              'Draft',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.archive),
+            title: Text(
+              'Archive',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.paperPlane),
+            title: Text(
+              'Sent',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.trash),
+            title: Text(
+              'Trash',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: ListTile(
+                leading: Icon(FontAwesomeIcons.cog),
+                title: Text(
+                  'Settings',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Email App'),
@@ -40,74 +108,7 @@ class _MessageListState extends State<MessageList> {
           )
         ],
       ),
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountEmail: Text('123here.comes.san@gmail.com'),
-              accountName: Text('San Neupane'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  "https://i.pinimg.com/originals/a5/76/46/a576463a3b5a9e8cb2a22b47c45a6a7f.jpg",
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.inbox),
-              title: Text(
-                'Inbox',
-                style: TextStyle(fontSize: 20.0),
-              ),
-              trailing: Chip(
-                label:
-                    Text('11', style: TextStyle(fontWeight: FontWeight.bold)),
-                backgroundColor: Colors.blue[100],
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.userEdit),
-              title: Text(
-                'Draft',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.archive),
-              title: Text(
-                'Archive',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.paperPlane),
-              title: Text(
-                'Sent',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.trash),
-              title: Text(
-                'Trash',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            Divider(),
-            Expanded(
-              child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: ListTile(
-                  leading: Icon(FontAwesomeIcons.cog),
-                  title: Text(
-                    'Settings',
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+      drawer: drawerItems,
       body: FutureBuilder(
         future: future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -124,32 +125,62 @@ class _MessageListState extends State<MessageList> {
                   child: Text('There is an error : ${snapshot.error}'),
                 );
               }
-              List<Message> _messages = snapshot.data;
+              // List<Message> _messages = snapshot.data;
+              List<Message> _messages = messages;
 
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (BuildContext context, int index) {
-                  Message _message = _messages[index];
-                  return ListTile(
-                    title: Text(_message.subject),
-                    subtitle: Text(
-                      _message.body,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    leading: CircleAvatar(
-                      child: Text("${index + 1}"),
-                    ),
-                    isThreeLine: true,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MessageDetail(
-                              title: _message.subject, body: _message.body),
-                        ),
-                      );
+                  Message _message = messages[index];
+                  return Dismissible(
+                    key: ObjectKey(_message),
+                    onDismissed: (direction) {
+                      setState(() {
+                        messages.removeAt(index);
+                      });
                     },
+                    background: Container(
+                      color: Colors.red[300],
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.trash,
+                              color: Colors.white,
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      title: Text(_message.subject),
+                      subtitle: Text(
+                        _message.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      leading: CircleAvatar(
+                        child: Text("${index + 1}"),
+                      ),
+                      isThreeLine: true,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageDetail(
+                                title: _message.subject, body: _message.body),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
                 itemCount: _messages.length,
