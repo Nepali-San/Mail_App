@@ -3,6 +3,7 @@ import 'package:mail_app_practise/pages/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:mail_app_practise/widgets/ComposeBtn.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MessageList extends StatefulWidget {
   @override
@@ -132,34 +133,9 @@ class _MessageListState extends State<MessageList> {
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (BuildContext context, int index) {
                   Message _message = messages[index];
-                  return Dismissible(
-                    key: ObjectKey(_message),
-                    onDismissed: (direction) {
-                      setState(() {
-                        messages.removeAt(index);
-                      });
-                    },
-                    background: Container(
-                      color: Colors.red[300],
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.trash,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                  return Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
                     child: ListTile(
                       title: Text(_message.subject),
                       subtitle: Text(
@@ -181,6 +157,38 @@ class _MessageListState extends State<MessageList> {
                         );
                       },
                     ),
+                    actions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Archive',
+                        color: Colors.blue,
+                        icon: Icons.archive,
+                        onTap: () => print('Archive'),
+                      ),
+                      IconSlideAction(
+                        caption: 'Share',
+                        color: Colors.indigo,
+                        icon: Icons.share,
+                        onTap: () => print('Share'),
+                      ),
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'More',
+                        color: Colors.black45,
+                        icon: Icons.more_horiz,
+                        onTap: () => print('More'),
+                      ),
+                      IconSlideAction(
+                        caption: 'Delete',
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () {
+                          setState(() {
+                            messages.removeAt(index);
+                          });
+                        },
+                      ),
+                    ],
                   );
                 },
                 itemCount: _messages.length,
