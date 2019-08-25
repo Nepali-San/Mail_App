@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mail_app_practise/pages/MessageList.dart/MessageList.dart';
+import 'package:mail_app_practise/pages/BottomNavBar/InboxTabs/MessageList.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
 
-class MessageLists extends StatelessWidget {
+class InboxTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -11,12 +11,12 @@ class MessageLists extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Email App'),
-          // actions: <Widget>[
-          //   IconButton(
-          //     icon: Icon(Icons.refresh),
-          //     onPressed: () {},
-          //   )
-          // ],
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {},
+            )
+          ],
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
