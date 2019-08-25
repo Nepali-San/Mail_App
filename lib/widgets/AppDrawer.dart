@@ -8,8 +8,8 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountEmail: Text('123here.comes.san@gmail.com'),
-            accountName: Text('San Neupane'),
+            accountEmail: Text('Someemail@gmail.com'),
+            accountName: Text('XYZ'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(
                 "https://i.pinimg.com/originals/a5/76/46/a576463a3b5a9e8cb2a22b47c45a6a7f.jpg",
