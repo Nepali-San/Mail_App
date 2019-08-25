@@ -15,15 +15,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Email App'),
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(Icons.refresh),
-      //       onPressed: () {},
-      //     )
-      //   ],
-      // ),
       body: [
         InboxTabs(),
         Contacts(),
@@ -38,7 +29,15 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
               title: Text("Calender"), icon: Icon(Icons.calendar_today))
         ],
+        onTap: _onTapHandler,
+        currentIndex: _selectedIndex,
       ),
     );
+  }
+
+  void _onTapHandler(int value) {
+    setState(() {
+      _selectedIndex = value;
+    });
   }
 }

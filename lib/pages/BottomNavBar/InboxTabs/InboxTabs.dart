@@ -10,7 +10,7 @@ class InboxTabs extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Email App'),
+          title: Text('Inbox'),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.refresh),

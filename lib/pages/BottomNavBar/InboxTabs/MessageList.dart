@@ -53,6 +53,7 @@ class _MessageListState extends State<MessageList> {
               itemBuilder: (BuildContext context, int index) {
                 Message _message = messages[index];
                 return Slidable(
+                  key: Key(_message.subject),
                   actionPane: SlidableDrawerActionPane(),
                   actionExtentRatio: 0.25,
                   child: ListTile(
