@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mail_app_practise/pages/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mail_app_practise/services/MessageService.dart';
 
 class MessageList extends StatefulWidget {
   final String status;
@@ -23,7 +24,7 @@ class _MessageListState extends State<MessageList> {
   }
 
   Future fetch() async {
-    future = Message.browse(status: widget.status);
+    future = MessageService.browse(status: widget.status);
     messages = await future;
   }
 
