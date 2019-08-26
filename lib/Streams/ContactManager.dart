@@ -1,14 +1,12 @@
 import 'dart:async';
 
-List<String> CONTACTS = ['user1', 'user2', 'user3', 'user4', 'user5'];
+import 'package:mail_app_practise/model/contacts.dart';
+import 'package:mail_app_practise/services/ContactService.dart';
 
 class ContactManager {
   //this stream will return a list of contacts
-  Stream<List<String>> get contactList async* {
-    for (var i = 0; i < CONTACTS.length; i++) {
-      await Future.delayed(Duration(seconds: 2));
-      yield (CONTACTS.sublist(0, i + 1));
-    }
+  Stream<List<Contact>> get contactList async* {
+    yield await ContactService.browse();
   }
 
   //this streamController is used for providing method to listen for changes in above stream
