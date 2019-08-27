@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
+import 'package:mail_app_practise/pages/BottomNavBar/ContactSearchDelegate.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
 
 class Contacts extends StatelessWidget {
@@ -12,6 +13,15 @@ class Contacts extends StatelessWidget {
       appBar: AppBar(
         title: Text('Contacts'),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ContactSearchDelegate(),
+              );
+            },
+          ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Chip(
