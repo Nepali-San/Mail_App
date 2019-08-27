@@ -5,15 +5,21 @@ import 'dart:convert';
 class ContactService {
   static String _url = 'https://jsonplaceholder.typicode.com/users';
 
-  static Future browse() async {
+  static Future<List<Contact>> browse({String query}) async {
     http.Response res = await http.get(_url);
     String content = res.body;
     List collection = json.decode(content);
 
-    List<Contact> _contacts =
-        collection.map((json) => Contact.fromJson(json)).toList();
+    Iterable<Contact> _contacts =
+        collection.map((json) => Contact.fromJson(json));
 
-    return _contacts;
+    if (query != null && query.isNotEmpty) {
+      _contacts = _contacts.where(
+        (test) => test.name.toLowerCase().contains(query),
+      );
+    }
+
+    return _contacts.toList();
   }
 }
 

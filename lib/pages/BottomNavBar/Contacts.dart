@@ -3,6 +3,7 @@ import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/pages/BottomNavBar/ContactSearchDelegate.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
+import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 
 class Contacts extends StatelessWidget {
   final ContactManager contactManager = ContactManager();
@@ -18,7 +19,7 @@ class Contacts extends StatelessWidget {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: ContactSearchDelegate(),
+                delegate: ContactSearchDelegate(contactManager: contactManager),
               );
             },
           ),
@@ -40,42 +41,25 @@ class Contacts extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: StreamBuilder<List<Contact>>(
+      body: ContactListBuilder(
         stream: contactManager.contactList,
-        builder: (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('There is an error : ${snapshot.error}'),
+        builder: (BuildContext context, List<Contact> data) {
+          List<Contact> contacts = data;
+          return Container(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(contacts[index].name),
+                  leading: CircleAvatar(
+                    child: Text(contacts[index].name[0]),
+                  ),
+                  subtitle: Text(contacts[index].email),
                 );
-              }
-              List<Contact> contacts = snapshot.data;
-              return Container(
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(),
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(contacts[index].name),
-                      leading: CircleAvatar(
-                        child: Text(contacts[index].name[0]),
-                      ),
-                      subtitle: Text(contacts[index].email),
-                    );
-                  },
-                  itemCount: contacts.length,
-                ),
-              );
-              break;
-            default:
-              return Text('Something went wrong');
-          }
+              },
+              itemCount: contacts.length,
+            ),
+          );
         },
       ),
     );
