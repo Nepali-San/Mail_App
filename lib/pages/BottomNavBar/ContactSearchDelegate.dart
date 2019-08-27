@@ -23,9 +23,16 @@ class ContactSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
-  }
 
+    Widget text = query.length < 3
+        ? Text("Type atlease 3 characters.")
+        : Text("Your query is : $query");
+
+    return Center(
+      child: text,
+    );
+  }
+ 
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container();
