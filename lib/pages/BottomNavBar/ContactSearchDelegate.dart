@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Provider.dart';
+import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 
@@ -31,10 +33,10 @@ class ContactSearchDelegate extends SearchDelegate {
       );
     }
 
-    // ContactManager contactManager = Provider.of(context);
+    ContactManager contactManager = Provider.of(context);
 
     return ContactListBuilder(
-      // stream: contactManager.filteredContactList(query: query),
+      stream: contactManager.filteredContactList(query: query),
       builder: (BuildContext context, List<Contact> data) {
         List<Contact> contacts = data;
         return Container(
