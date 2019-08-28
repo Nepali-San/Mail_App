@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/DirtyProvider.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/pages/Home.dart';
@@ -17,8 +18,10 @@ class EmailApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           accentColor: Colors.lightBlueAccent,
         ),
-        //MessageLists widget contains tab with two different pages.
-        home: Home(),
+        //DirtyProvider has it's data on it's own state,
+        home: DirtyProvider(
+          child: Home(),
+        ),
       ),
     );
   }
