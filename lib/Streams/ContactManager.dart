@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/services/ContactService.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ContactManager {
   ContactManager() {
@@ -21,7 +22,8 @@ class ContactManager {
   }
 
   //this streamController is used for providing method to listen for changes in above stream
-  StreamController<int> _contactController = StreamController<int>();
+  //instead of streamController , use BehaviorSubject to listen for changes multiple times
+  StreamController<int> _contactController = BehaviorSubject<int>();
 
   //this stream will return stream added to the controller.
   Stream<int> get contactCounter => _contactController.stream;
