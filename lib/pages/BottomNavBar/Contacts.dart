@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/pages/BottomNavBar/ContactSearchDelegate.dart';
@@ -6,10 +7,13 @@ import 'package:mail_app_practise/widgets/AppDrawer.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 
 class Contacts extends StatelessWidget {
-  final ContactManager contactManager = ContactManager();
+  // final ContactManager contactManager = ContactManager();
 
   @override
   Widget build(BuildContext context) {
+
+    ContactManager contactManager = Provider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
