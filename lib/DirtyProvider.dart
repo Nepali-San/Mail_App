@@ -10,10 +10,14 @@ class DirtyProvider extends StatefulWidget {
   @override
   _DirtyProviderState createState() => _DirtyProviderState();
 
-  static _DirtyProviderState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_DirtyProvider)
-            as _DirtyProvider)
-        .data;
+  static _DirtyProviderState of(BuildContext context, {bool subscribe = true}) {
+    return subscribe
+        ? (context.inheritFromWidgetOfExactType(_DirtyProvider)
+                as _DirtyProvider)
+            .data
+        : (context.ancestorInheritedElementForWidgetOfExactType(_DirtyProvider)
+                as _DirtyProvider)
+            .data;
   }
 }
 
@@ -25,6 +29,12 @@ class _DirtyProviderState extends State<DirtyProvider> {
   void initState() {
     counter = 1;
     super.initState();
+  }
+
+  void increment() {
+    setState(() {
+      counter++;
+    });
   }
 
   @override
