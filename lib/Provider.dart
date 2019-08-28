@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:mail_app_practise/Streams/ContactManager.dart';
 
-class Provider extends InheritedWidget {
-  final ContactManager data;
+class Provider<T> extends InheritedWidget {
+  final T data;
 
   Provider({Key key, Widget child, this.data}) : super(key: key, child: child);
 
-  static ContactManager of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(Provider) as Provider).data;
+  static T of<T>(BuildContext context) {
+    final type = _typeOf<Provider<T>>();
+    return (context.inheritFromWidgetOfExactType(type) as Provider).data;
   }
 
   //for immutable inheritedwidget we return false.
@@ -15,4 +15,6 @@ class Provider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) {
     return false;
   }
+
+  static Type _typeOf<T>() => T;
 }

@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/Provider.dart';
-import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/pages/BottomNavBar/ContactSearchDelegate.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
+import 'package:mail_app_practise/widgets/ContactCounterChip.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 
 class Contacts extends StatelessWidget {
-  // final ContactManager contactManager = ContactManager();
-
   @override
   Widget build(BuildContext context) {
-
-    ContactManager contactManager = Provider.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
@@ -23,30 +17,15 @@ class Contacts extends StatelessWidget {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: ContactSearchDelegate(contactManager: contactManager),
+                delegate: ContactSearchDelegate(),
               );
             },
           ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Chip(
-              label: StreamBuilder<int>(
-                  stream: contactManager.contactCounter,
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    return Text(
-                      snapshot.hasData ? snapshot.data.toString() : '0',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    );
-                  }),
-              backgroundColor: Colors.red,
-            ),
-          )
+          ContactCounterChip()
         ],
       ),
       drawer: AppDrawer(),
       body: ContactListBuilder(
-        stream: contactManager.contactList,
         builder: (BuildContext context, List<Contact> data) {
           List<Contact> contacts = data;
           return Container(

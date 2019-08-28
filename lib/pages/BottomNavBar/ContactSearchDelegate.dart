@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 
 class ContactSearchDelegate extends SearchDelegate {
-  final ContactManager contactManager;
-
-  ContactSearchDelegate({this.contactManager});
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -36,9 +31,11 @@ class ContactSearchDelegate extends SearchDelegate {
       );
     }
 
+    // ContactManager contactManager = Provider.of(context);
+
     return ContactListBuilder(
-      stream: contactManager.filteredContactList(query: query),
-      builder: (BuildContext context,  List<Contact> data) {
+      // stream: contactManager.filteredContactList(query: query),
+      builder: (BuildContext context, List<Contact> data) {
         List<Contact> contacts = data;
         return Container(
           child: ListView.separated(
