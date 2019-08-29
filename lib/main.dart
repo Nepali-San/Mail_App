@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/DirtyProvider.dart';
 import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/pages/Home.dart';
@@ -19,9 +18,7 @@ class EmailApp extends StatelessWidget {
           accentColor: Colors.lightBlueAccent,
         ),
         //DirtyProvider has it's data on it's own state,
-        home: DirtyProvider(
-          child: Home(),
-        ),
+        home: Home(),
       ),
     );
   }
