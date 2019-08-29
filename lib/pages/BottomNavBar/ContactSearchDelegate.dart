@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
@@ -35,7 +36,8 @@ class ContactSearchDelegate extends SearchDelegate {
       );
     }
 
-    ContactManager contactManager = Provider.of(context);
+    Overseer overseer = Provider.of(context);
+    ContactManager contactManager = overseer.fetch(name: ContactManager);
 
     return ContactListBuilder(
       stream: contactManager.filteredContactList(query: query),

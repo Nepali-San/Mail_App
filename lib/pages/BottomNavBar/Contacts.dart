@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
@@ -9,7 +10,9 @@ import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 class Contacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ContactManager contactManager = Provider.of(context);
+    Overseer overseer = Provider.of(context);
+    ContactManager contactManager = overseer.fetch(name: ContactManager);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
@@ -55,7 +58,8 @@ class Contacts extends StatelessWidget {
 class ContactCounterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ContactManager contactManager = Provider.of(context);
+    Overseer overseer = Provider.of(context);
+    ContactManager contactManager = overseer.fetch(name: ContactManager);
 
     return Padding(
       padding: EdgeInsets.all(8.0),
