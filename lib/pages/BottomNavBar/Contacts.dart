@@ -31,7 +31,7 @@ class Contacts extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: ContactListBuilder(
-        stream: contactManager.contactList,
+        stream: contactManager.browse$(),
         builder: (BuildContext context, List<Contact> data) {
           List<Contact> contacts = data;
           return Container(
@@ -65,7 +65,7 @@ class ContactCounterChip extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       child: Chip(
         label: StreamBuilder<int>(
-            stream: contactManager.contactCounter,
+            stream: contactManager.count$,
             builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
               return Text(
                 snapshot.hasData ? snapshot.data.toString() : '0',

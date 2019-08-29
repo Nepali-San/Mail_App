@@ -40,7 +40,7 @@ class ContactSearchDelegate extends SearchDelegate {
     ContactManager contactManager = overseer.fetch(name: ContactManager);
 
     return ContactListBuilder(
-      stream: contactManager.filteredContactList(query: query),
+      stream: contactManager.browse$(query: query),
       builder: (BuildContext context, List<Contact> data) {
         List<Contact> contacts = data;
         return Container(
