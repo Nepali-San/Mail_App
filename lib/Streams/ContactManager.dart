@@ -19,6 +19,7 @@ class ContactManager {
   //$ added in end is just a convenction to tell this stream is exposed out.
   Stream<int> get count$ => _contactController.stream;
 
+  //it returns the stream of list, we listens for change in this stream.
   Stream<List<Contact>> browse$({String query}) {
     return Stream.fromFuture(ContactService.browse(query: query));
   }
