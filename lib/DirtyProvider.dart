@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-//DirtyProvider is a mutable inheritedWidget,
-//it uses stateful widget to mutate/change it's data.
+// * DirtyProvider is a mutable inheritedWidget,
+// * it uses stateful widget to mutate/change it's data.
 
 class DirtyProvider extends StatefulWidget {
   final Widget child;
 
   DirtyProvider({this.child});
+
   @override
   _DirtyProviderState createState() => _DirtyProviderState();
 
@@ -22,7 +23,14 @@ class DirtyProvider extends StatefulWidget {
 }
 
 class _DirtyProviderState extends State<DirtyProvider> {
-  //counter is the state to be mutated.
+  // * counter is the state to be mutated.
+
+  /*
+   * unlike immutable provider we don't need 
+   * to provide data(as param), since it handles it's data/state
+   * within it's stateful widget.   
+   * */
+
   int counter;
 
   @override
@@ -46,14 +54,14 @@ class _DirtyProviderState extends State<DirtyProvider> {
   }
 }
 
-//inherited widget is private class.
+// * Inherited widget is a private class.
 class _DirtyProvider extends InheritedWidget {
   final _DirtyProviderState data;
 
   _DirtyProvider({Key key, this.data, Widget child})
       : super(key: key, child: child);
 
-  //return true for a mutable inhWidget
+  // * Rem: return true for a mutable inhWidget
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
     return true;

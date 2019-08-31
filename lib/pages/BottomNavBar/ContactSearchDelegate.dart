@@ -39,6 +39,7 @@ class ContactSearchDelegate extends SearchDelegate {
     Overseer overseer = Provider.of(context);
     ContactManager contactManager = overseer.fetch(name: ContactManager);
 
+    // * ContactListBuilder handles the different connection states of streams
     return ContactListBuilder(
       stream: contactManager.browse$(query: query),
       builder: (BuildContext context, List<Contact> data) {

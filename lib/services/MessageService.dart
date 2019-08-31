@@ -6,7 +6,8 @@ import 'dart:async';
 
 class MessageService {
   static Future<List<Message>> browse({String status = 'important'}) async {
-    //load the json file.
+
+    // * load the local json file.
     // String content = await rootBundle.loadString('data/message.json');
 
     String url = status == 'important'
@@ -16,12 +17,12 @@ class MessageService {
     http.Response response = await http.get(url);
     String content = response.body;
 
-    //decode the json, since first symbol is square bracket , our json is the "list of dynamic" so it return list<dynamic>
-    //if first symbol was { then it would return Map<String,dynamic>.
+    // ? decode the json, since first symbol is square bracket , our json is the "list of dynamic" so it return list<dynamic>
+    // ? if first symbol was { then it would return Map<String,dynamic>.
 
     List<dynamic> collection = json.decode(content);
 
-    //use named contructor to typecast the json into object.
+    // *using named contructor to typecast the json into object.
     List<Message> _messages =
         collection.map((json) => Message.fromJson(json)).toList();
 

@@ -4,6 +4,8 @@ import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/services/ContactService.dart';
 import 'package:rxdart/rxdart.dart';
 
+// TODO: understand how stream works in detail
+
 class ContactManager {
   ContactManager() {
     //we listent to the contactList and whenever it changes we add a data

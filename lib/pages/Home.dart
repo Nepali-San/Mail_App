@@ -39,9 +39,18 @@ class _HomeState extends State<Home> {
       Container(),
     ];
 
+    /*
+     * Since we will have one bottomNavPage with a Tab so we use DefaultTabController
+     * You must put all bottom nav pages or tab pages nested under the same Scaffold.
+     */
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        /*  
+         * This appbar will conditionally change based on the current page of 
+         * bottomNavbar  
+         * */
         appBar: MyAppBar(
           index: _selectedIndex,
           title: Text(appbarTitles[_selectedIndex]),
@@ -56,11 +65,17 @@ class _HomeState extends State<Home> {
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                title: Text("Inbox"), icon: Icon(Icons.mail)),
+              title: Text("Inbox"),
+              icon: Icon(Icons.mail),
+            ),
             BottomNavigationBarItem(
-                title: Text("Contacts"), icon: Icon(Icons.people)),
+              title: Text("Contacts"),
+              icon: Icon(Icons.people),
+            ),
             BottomNavigationBarItem(
-                title: Text("Calender"), icon: Icon(Icons.calendar_today))
+              title: Text("Calender"),
+              icon: Icon(Icons.calendar_today),
+            )
           ],
           onTap: _onTapHandler,
           currentIndex: _selectedIndex,

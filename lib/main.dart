@@ -17,7 +17,6 @@ class EmailApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           accentColor: Colors.lightBlueAccent,
         ),
-        //DirtyProvider has it's data on it's own state,
         home: Home(),
       ),
     );

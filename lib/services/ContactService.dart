@@ -23,7 +23,12 @@ class ContactService {
   }
 }
 
-// void main() async {
-//   List result = await ContactService.browse();
-//   print(result);
-// }
+// * just to check if the above code fetches the data,
+// * you may run this file as a seprate dart file, by writing main() as below
+
+/* 
+  void main() async {
+     List result = await ContactService.browse();
+    print(result);
+   }
+ */

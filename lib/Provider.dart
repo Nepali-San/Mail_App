@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
 
+// * Provider is a generic immutable inheritedWidget
+// * using it the data provided to the root can easily be accessed by it's childrens
+
 class Provider<T> extends InheritedWidget {
   final T data;
 
@@ -10,7 +13,7 @@ class Provider<T> extends InheritedWidget {
     return (context.inheritFromWidgetOfExactType(type) as Provider).data;
   }
 
-  //for immutable inheritedwidget we return false.
+  // * for immutable inheritedwidget we return false.
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
     return false;
