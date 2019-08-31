@@ -1,7 +1,5 @@
 import 'package:rxdart/subjects.dart';
 
-// TODO: Understand how BehaviourSubject works in detail.
-
 class CounterManager {
   BehaviorSubject<int> _counter = BehaviorSubject<int>.seeded(0);
 
@@ -9,6 +7,6 @@ class CounterManager {
 
   Stream<int> get counter$ => _counter.stream;
 
-  void increment() => _counter.add(_current+1);
-  void decrement() => _counter.add(_current-1);
+  void increment() => _counter.add(_current + 1);
+  void decrement() => _counter.add(_current - 1);
 }
