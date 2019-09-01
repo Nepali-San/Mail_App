@@ -4,27 +4,30 @@ import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/services/ContactService.dart';
 import 'package:rxdart/rxdart.dart';
 
-// TODO: understand how stream & BehaviourSubject works in detail.
-
 class ContactManager {
   ContactManager() {
-    /*  
-    * we listen to the contactList and whenever it changes we add a data
-    * to another stream through controller.
-    */
-    browse$().listen((list) => _contactController.add(list.length));
+    _filterSubject.stream.listen(
+      (filter) async {
+        var contacts = await ContactService.browse(query: filter);
+        _collectionSubject.add(contacts);
+      },
+    );
+
+    _collectionSubject.listen((list) => _countSubject.add(list.length));
   }
 
-  // * this streamController is used for providing method to listen for changes in above stream
-  // * instead of streamController , use BehaviorSubject to listen for changes multiple times
-  StreamController<int> _contactController = BehaviorSubject<int>();
+  final PublishSubject<String> _filterSubject = PublishSubject<String>();
+  final PublishSubject<int> _countSubject = PublishSubject<int>();
+  final PublishSubject<List<Contact>> _collectionSubject =
+      PublishSubject<List<Contact>>();
 
-  // * this stream will return stream added to the controller.
-  // * $ added in end is just a convenction to tell this stream is exposed out.
-  Stream<int> get count$ => _contactController.stream;
+  // * Sink and Streams/Observable are the interfaces for StreamBuilder.
+  Sink<String> get inFilter => _filterSubject.sink;
+  Observable<int> get count$ => _countSubject.stream;
+  Observable<List<Contact>> get browse$ => _collectionSubject.stream;
 
-  // * it returns the stream of list, we listens for change in this stream.
-  Stream<List<Contact>> browse$({String query}) {
-    return Stream.fromFuture(ContactService.browse(query: query));
+  void dispose() {
+    _countSubject.close();
+    _filterSubject.close();
   }
 }

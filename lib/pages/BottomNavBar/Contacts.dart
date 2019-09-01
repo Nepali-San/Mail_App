@@ -11,9 +11,10 @@ class Contacts extends StatelessWidget {
   Widget build(BuildContext context) {
     Overseer overseer = Provider.of(context);
     ContactManager contactManager = overseer.fetch(name: ContactManager);
+    contactManager.inFilter.add('');
 
     return ContactListBuilder(
-      stream: contactManager.browse$(),
+      stream: contactManager.browse$,
       builder: (BuildContext context, List<Contact> data) {
         List<Contact> contacts = data;
         return Container(
@@ -44,18 +45,18 @@ class ContactCounterChip extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.all(8.0),
-      child: Chip(
-        label: Observer<int>(
-            stream: contactManager.count$,
-            onSuccess: (BuildContext context, int data) {
-              return Text(
+      child: Observer<int>(
+          stream: contactManager.count$,
+          onSuccess: (BuildContext context, int data) {
+            return Chip(
+              label: Text(
                 (data ?? 0).toString(),
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              );
-            }),
-        backgroundColor: Colors.red,
-      ),
+              ),
+              backgroundColor: Colors.red,
+            );
+          }),
     );
   }
 }
