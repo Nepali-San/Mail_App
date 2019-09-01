@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/CounterManager.dart';
+import 'package:mail_app_practise/widgets/Observer.dart';
 
 class Calender extends StatelessWidget {
   @override
@@ -31,11 +32,10 @@ class Counter extends StatelessWidget {
     Overseer overseer = Provider.of(context);
     CounterManager counterManager = overseer.fetch(name: CounterManager);
 
-    return StreamBuilder<int>(
-      initialData: 0,
+    return Observer<int>(
       stream: counterManager.counter$,
-      builder: (context, snapshot) {
-        return Text('Calender ${snapshot.data}');
+      onSuccess: (context, data) {
+        return Text('Calender $data');
       },
     );
   }
