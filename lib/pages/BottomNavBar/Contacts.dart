@@ -4,6 +4,7 @@ import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
+import 'package:mail_app_practise/widgets/Observer.dart';
 
 class Contacts extends StatelessWidget {
   @override
@@ -44,11 +45,11 @@ class ContactCounterChip extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Chip(
-        label: StreamBuilder<int>(
+        label: Observer<int>(
             stream: contactManager.count$,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            onSuccess: (BuildContext context, int data) {
               return Text(
-                snapshot.hasData ? snapshot.data.toString() : '0',
+                (data ?? 0).toString(),
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               );
