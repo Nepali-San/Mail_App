@@ -5,14 +5,16 @@ import 'package:rxdart/rxdart.dart';
 class ContactManager {
   ContactManager() {
     // * listen to the data from inFiter and provide it to collectionSubject
+    // * '.stream' can be omitted in below line of code
     _filterSubject.stream.listen(
       (query) async {
         var contacts = await ContactService.browse(query: query);
+        // * '.sink' can be omitted in below line of code
         _collectionSubject.sink.add(contacts);
       },
     );
 
-    // * Listen data on CollectionSubject and provide to CountSubject
+    // * Listen data on CollectionSubject and provide to CountSubject, '.stream' is omitted here
     _collectionSubject.listen((list) => _countSubject.sink.add(list.length));
   }
 
@@ -43,7 +45,7 @@ class ContactManager {
   }
 }
 
-/* 
+/*
   * PublishSubject is like StreamController but  we can listen
   * for stream multiple times without creating new Objects.
   */
