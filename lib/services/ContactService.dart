@@ -3,21 +3,17 @@ import 'package:mail_app_practise/model/contacts.dart';
 import 'dart:convert';
 
 class ContactService {
-  static String _url = 'https://jsonplaceholder.typicode.com/users';
+  // ? this is my localhost id , need to deploy
+  static String _url = 'http://192.168.100.12:5000/contacts';
 
   static Future<List<Contact>> browse({String query}) async {
-    http.Response res = await http.get(_url);
+    http.Response res = await http.get('$_url?q=$query');
+
     String content = res.body;
     List collection = json.decode(content);
 
     Iterable<Contact> _contacts =
         collection.map((json) => Contact.fromJson(json));
-
-    if (query != null && query.isNotEmpty) {
-      _contacts = _contacts.where(
-        (test) => test.name.toLowerCase().contains(query),
-      );
-    }
 
     return _contacts.toList();
   }

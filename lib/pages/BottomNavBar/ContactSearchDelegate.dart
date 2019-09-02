@@ -30,12 +30,11 @@ class ContactSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 3) {
-      return Center(
-        child: Text('Type atleast 3 character to perform search'),
-      );
-    }
+    return Container();
+  }
 
+  @override
+  Widget buildSuggestions(BuildContext context) {
     Overseer overseer = Provider.of(context);
     ContactManager contactManager = overseer.fetch(name: ContactManager);
 
@@ -63,10 +62,5 @@ class ContactSearchDelegate extends SearchDelegate {
         );
       },
     );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Container();
   }
 }

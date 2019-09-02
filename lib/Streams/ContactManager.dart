@@ -6,7 +6,7 @@ class ContactManager {
   ContactManager() {
     // * listen to the data from inFiter and provide it to collectionSubject
     // * '.stream' can be omitted in below line of code
-    _filterSubject.stream.listen(
+    _filterSubject.stream.debounceTime(Duration(milliseconds: 500)).listen(
       (query) async {
         var contacts = await ContactService.browse(query: query);
         // * '.sink' can be omitted in below line of code
