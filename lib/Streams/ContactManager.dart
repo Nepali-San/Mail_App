@@ -1,33 +1,49 @@
-import 'dart:async';
-
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/services/ContactService.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ContactManager {
   ContactManager() {
+    // * listen to the data from inFiter and provide it to collectionSubject
     _filterSubject.stream.listen(
-      (filter) async {
-        var contacts = await ContactService.browse(query: filter);
-        _collectionSubject.add(contacts);
+      (query) async {
+        var contacts = await ContactService.browse(query: query);
+        _collectionSubject.sink.add(contacts);
       },
     );
 
-    _collectionSubject.listen((list) => _countSubject.add(list.length));
+    // * Listen data on CollectionSubject and provide to CountSubject
+    _collectionSubject.listen((list) => _countSubject.sink.add(list.length));
   }
 
+  // * we get input from outside using _filterSubject's Sink only.
   final PublishSubject<String> _filterSubject = PublishSubject<String>();
-  final PublishSubject<int> _countSubject = PublishSubject<int>();
+
+  // * filterSubject adds data to collectionSubject through listener.
   final PublishSubject<List<Contact>> _collectionSubject =
       PublishSubject<List<Contact>>();
 
-  // * Sink and Streams/Observable are the interfaces for StreamBuilder.
+  // * collectionSubject adds data to countSubject through listener.
+  final PublishSubject<int> _countSubject = PublishSubject<int>();
+
+  // * Sink and Streams/Observable are the interfaces for StreamBuilder/Subjects.
+
+  // * inFilter provides interface for our input i.e. query for contacts fetching
   Sink<String> get inFilter => _filterSubject.sink;
+
+  // * Observable like stream provides the data added to it's sink.
   Observable<int> get count$ => _countSubject.stream;
   Observable<List<Contact>> get browse$ => _collectionSubject.stream;
 
+  // * dispose the subjects to avoid mem. leaks
   void dispose() {
     _countSubject.close();
     _filterSubject.close();
+    _collectionSubject.close();
   }
 }
+
+/* 
+  * PublishSubject is like StreamController but  we can listen
+  * for stream multiple times without creating new Objects.
+  */
