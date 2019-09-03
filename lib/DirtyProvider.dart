@@ -3,6 +3,9 @@ import 'package:flutter/widgets.dart';
 // * DirtyProvider is a mutable inheritedWidget,
 // * it uses stateful widget to mutate/change it's data.
 
+// ! we don't use dirty provider in this project , it is just for practising
+// ! purpose.
+
 class DirtyProvider extends StatefulWidget {
   final Widget child;
 

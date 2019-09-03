@@ -1,78 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Overseer.dart';
+import 'package:mail_app_practise/Provider.dart';
+import 'package:mail_app_practise/Streams/InboxManager.dart';
 import 'package:mail_app_practise/pages/MessageDetails.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:mail_app_practise/services/MessageService.dart';
+import 'package:mail_app_practise/widgets/Observer.dart';
 
-class MessageList extends StatefulWidget {
+class MessageList extends StatelessWidget {
   final String status;
 
   MessageList({this.status = 'important'});
 
   @override
-  _MessageListState createState() => _MessageListState();
-}
-
-class _MessageListState extends State<MessageList> {
-  Future<List<Message>> future;
-  List<Message> messages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetch();
-  }
-
-  Future fetch() async {
-    future = MessageService.browse(status: widget.status);
-    messages = await future;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          // List<Message> _messages = snapshot.data;
-          List<Message> _messages = messages;
+    Overseer overseer = Provider.of(context);
+    InboxManager contactManager = overseer.fetch(name: InboxManager);
 
-          return ListView.separated(
-            separatorBuilder: (context, index) => Divider(),
-            itemBuilder: (BuildContext context, int index) {
-              Message _message = _messages[index];
-              return buildSlidable(_message, index, context);
-            },
-            itemCount: _messages.length,
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('There is an error : ${snapshot.error}'),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    contactManager.inStatusFilter.add(status);
+
+    return Observer<List<Message>>(
+      stream: contactManager.msgStream$,
+      onSuccess: (BuildContext context,List<Message> data) {
+        List<Message> _messages = data;
+
+        return ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          itemBuilder: (BuildContext context, int index) {
+            Message _message = _messages[index];
+            return buildSlidable(_message, index, context);
+          },
+          itemCount: _messages.length,
+        );
       },
     );
-
-    /** 
-      //  since the data used by composeBtn depends on async , we need to wrap it with
-      //  future builder
-      //  Else we will be rendering this widget before with get messages list and we will pass empty list
-      //  floatingActionButton:
-      FutureBuilder(
-        future: future,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            return ComposeBtn(messages: messages);
-          }
-          return Container();
-        },
-      );
-    */
   }
 
   Slidable buildSlidable(Message _message, int index, BuildContext context) {
@@ -126,11 +87,7 @@ class _MessageListState extends State<MessageList> {
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () {
-            setState(() {
-              messages.removeAt(index);
-            });
-          },
+          onTap: () {},
         ),
       ],
     );

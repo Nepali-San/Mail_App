@@ -33,7 +33,7 @@ class ContactManager {
   // * inFilter provides interface for our input i.e. query for contacts fetching
   Sink<String> get inFilter => _filterSubject.sink;
 
-  // * Observable like stream provides the data added to it's sink.
+  // * Observable, like stream provides the data, added to it's sink.
   Observable<int> get count$ => _countSubject.stream;
   Observable<List<Contact>> get browse$ => _collectionSubject.stream;
 
@@ -47,5 +47,5 @@ class ContactManager {
 
 /*
   * PublishSubject is like StreamController but  we can listen
-  * for stream multiple times without creating new Objects.
+  * for stream multiple times without creating new Objects.  
   */
