@@ -6,10 +6,14 @@ class ContactManager {
   ContactManager() {
     // * listen to the data from inFiter and provide it to collectionSubject
     // * '.stream' can be omitted in below line of code
-    _filterSubject.stream.debounceTime(Duration(milliseconds: 500)).listen(
-      (query) async {
-        var contacts = await ContactService.browse(query: query);
-        // * '.sink' can be omitted in below line of code
+    // * debounceTime : wait for a while before sending request to server
+    // * asyncMap,SwitchMap will order the response and request from server.
+    _filterSubject.stream
+        .debounceTime(Duration(milliseconds: 500))
+        .switchMap((query) async* {
+      yield await ContactService.browse(query: query);
+    }).listen(
+      (contacts) async {
         _collectionSubject.sink.add(contacts);
       },
     );
