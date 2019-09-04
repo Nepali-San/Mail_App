@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/model/message.dart';
+import 'package:mail_app_practise/widgets/Observer.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MessageCompose extends StatefulWidget {
   @override
@@ -24,13 +26,26 @@ class _MessageComposeState extends State<MessageCompose> {
             padding: EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  validator: (value) =>
-                      !value.contains('@') ? "must be a valid email" : null,
-                  onSaved: (value) => to = value,
-                  decoration: InputDecoration(
-                    labelText: 'To',
-                  ),
+                Observer(
+                  // * a dummy stream can be generated using Observable.just() &
+                  // * Observable.error('error msg') for error stream
+                  // * here we will validate and save data using reactive concept
+                  stream: Observable.just("data"),
+                  onSuccess: (BuildContext context, String data) {
+                    return TextField(                      
+                      decoration: InputDecoration(
+                        labelText: 'To',
+                      ),
+                    );
+                  },
+                  onError: (BuildContext context, String err) {
+                    return TextField(
+                      decoration: InputDecoration(
+                        labelText: 'To',
+                        errorText: err,
+                      ),
+                    );
+                  },
                 ),
                 TextFormField(
                   validator: (value) => value.length < 6
