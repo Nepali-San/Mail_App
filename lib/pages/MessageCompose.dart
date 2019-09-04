@@ -48,6 +48,7 @@ class _MessageComposeState extends State<MessageCompose> {
                         labelText: 'To',
                         errorText: err,
                       ),
+                      onChanged: messageFormManger.inemail.add,
                     );
                   },
                 ),
