@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mail_app_practise/pages/MessageComponse.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mail_app_practise/pages/MessageCompose.dart';
 import 'package:mail_app_practise/model/message.dart';
 
 class ComposeBtn extends StatelessWidget {
-  final List<Message> messages;
+  // final List<Message> messages;
 
-  ComposeBtn({this.messages});
+  // ComposeBtn({this.messages});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      child: Icon(Icons.add, color: Colors.white),
+      child: Icon(FontAwesomeIcons.pencilAlt, color: Colors.white),
       onPressed: () async {
         Message msg = await Navigator.push(
           context,
@@ -20,7 +21,7 @@ class ComposeBtn extends StatelessWidget {
         );
 
         if (msg != null) {
-          messages.add(msg);
+          // messages.add(msg);
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text("Your message: ${msg.body}"),

@@ -13,14 +13,14 @@ class Calender extends StatelessWidget {
   }
 }
 
-class FAB extends StatelessWidget {
+class IncrementBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Overseer overseer = Provider.of(context);
     CounterManager counterManager = overseer.fetch(name: CounterManager);
 
     return FloatingActionButton(
-      child: Icon(Icons.add),
+      child: Icon(Icons.add, color: Colors.white),
       onPressed: counterManager.increment,
     );
   }

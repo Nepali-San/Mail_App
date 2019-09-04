@@ -5,6 +5,7 @@ import 'package:mail_app_practise/pages/BottomNavBar/Contacts.dart';
 import 'package:mail_app_practise/pages/BottomNavBar/InboxTabs/InboxTabs.dart';
 import 'package:mail_app_practise/widgets/AppBar.dart';
 import 'package:mail_app_practise/widgets/AppDrawer.dart';
+import 'package:mail_app_practise/widgets/ComposeBtn.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-  List<String> appbarTitles = ['Index', 'Contacts', 'Calender'];
+  List<String> appbarTitles = ['Inbox', 'Contacts', 'Calender'];
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,13 @@ class _HomeState extends State<Home> {
       ),
       Container(),
     ];
+
+    Widget floatingBtn = Container();
+    if (_selectedIndex == 0) {
+      floatingBtn = ComposeBtn();
+    } else if (_selectedIndex == 2) {
+      floatingBtn = IncrementBtn();
+    }
 
     /*
      * Since we will have one bottomNavPage with a Tab so we use DefaultTabController
@@ -80,7 +88,7 @@ class _HomeState extends State<Home> {
           onTap: _onTapHandler,
           currentIndex: _selectedIndex,
         ),
-        floatingActionButton: _selectedIndex == 2 ? FAB() : null,
+        floatingActionButton: floatingBtn,
       ),
     );
   }
