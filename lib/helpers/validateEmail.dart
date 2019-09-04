@@ -5,7 +5,7 @@ import 'dart:async';
 // * hence we seprate our validation login as a mixin(special class).
 // * other classes can use mixins without inheriting it.
 
-mixin EmailValidation {
+mixin Validation {
   // * simple validation logic
   static bool isEmail(String email) => email.contains('@');
 
@@ -15,6 +15,17 @@ mixin EmailValidation {
       sink.add(value);
     } else {
       sink.addError("Email is not valid !!!");
+    }
+  });
+
+  final validateSubject = StreamTransformer<String, String>.fromHandlers(
+      handleData: (String value, EventSink<String> sink) {
+    if (value.length == 0) {
+      sink.addError("Subject cannot be empty");
+    } else if (value.length < 5) {
+      sink.addError("Subject must contain atleast 5 characters.");
+    } else {
+      sink.add(value);
     }
   });
 }

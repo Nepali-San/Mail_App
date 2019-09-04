@@ -3,18 +3,8 @@ import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
 import 'package:mail_app_practise/Streams/MessageFormManager.dart';
 import 'package:mail_app_practise/model/message.dart';
-import 'package:mail_app_practise/widgets/Observer.dart';
 
-class MessageCompose extends StatefulWidget {
-  @override
-  _MessageComposeState createState() => _MessageComposeState();
-}
-
-class _MessageComposeState extends State<MessageCompose> {
-  String to, body, subject;
-
-  final GlobalKey<FormState> key = GlobalKey<FormState>();
-
+class MessageCompose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MessageFormManger messageFormManger =
@@ -31,62 +21,58 @@ class _MessageComposeState extends State<MessageCompose> {
             padding: EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
             child: Column(
               children: <Widget>[
-                Observer(
+                StreamBuilder<String>(
                   stream: messageFormManger.email$,
-                  onSuccess: (BuildContext context, String data) {
+                  builder: (context, snapshot) {
                     return TextField(
                       decoration: InputDecoration(
                         labelText: 'To',
+                        errorText: snapshot.error,
                       ),
                       // * point-free style , parameter is implictly passed
                       onChanged: messageFormManger.inemail.add,
                     );
                   },
-                  onError: (BuildContext context, String err) {
-                    return TextField(
-                      decoration: InputDecoration(
-                        labelText: 'To',
-                        errorText: err,
-                      ),
-                      onChanged: messageFormManger.inemail.add,
-                    );
-                  },
                 ),
-                TextFormField(
-                  validator: (value) => value.length < 6
-                      ? "Must have more than 5 characters"
-                      : null,
-                  onSaved: (value) => subject = value,
-                  decoration: InputDecoration(
-                    labelText: 'Subject',
-                  ),
-                ),
+                StreamBuilder<String>(
+                    stream: messageFormManger.subject$,
+                    builder: (context, snapshot) {
+                      return TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Subject',
+                          errorText: snapshot.error,
+                        ),
+                        onChanged: messageFormManger.inSubject.add,
+                      );
+                    }),
                 Divider(
                   height: 60.0,
                 ),
-                TextFormField(
-                  validator: (value) => value.length < 6
-                      ? "Must have more than 5 characters"
-                      : null,
-                  onSaved: (value) => body = value,
-                  decoration: InputDecoration(hintText: 'Body'),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Body',
+                  ),
                   maxLines: 5,
+                  onChanged: messageFormManger.inBody.add,
                 ),
                 SizedBox(height: 10.0),
-                RaisedButton(
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    if (this.key.currentState.validate()) {
-                      this.key.currentState.save();
-                      Message msg = Message(body: body, subject: subject);
-                      Navigator.pop(context, msg);
-                    }
-                  },
-                )
+                StreamBuilder<bool>(
+                    stream: messageFormManger.isFormValid$,
+                    builder: (context, snapshot) {
+                      return RaisedButton(
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.blue,
+                        onPressed: !snapshot.hasData
+                            ? null
+                            : () {
+                                Message msg = messageFormManger.submit();
+                                Navigator.pop(context, msg);
+                              },
+                      );
+                    })
               ],
             ),
           ),
