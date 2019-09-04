@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
-import 'package:mail_app_practise/Streams/MessageFormManager.dart';
+import 'package:mail_app_practise/streams/MessageFormManager.dart';
 import 'package:mail_app_practise/model/message.dart';
 
 class MessageCompose extends StatelessWidget {

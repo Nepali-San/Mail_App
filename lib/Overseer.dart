@@ -1,7 +1,7 @@
-import 'package:mail_app_practise/Streams/ContactManager.dart';
-import 'package:mail_app_practise/Streams/CounterManager.dart';
-import 'package:mail_app_practise/Streams/InboxManager.dart';
-import 'package:mail_app_practise/Streams/MessageFormManager.dart';
+import 'package:mail_app_practise/streams/ContactManager.dart';
+import 'package:mail_app_practise/streams/CounterManager.dart';
+import 'package:mail_app_practise/streams/InboxManager.dart';
+import 'package:mail_app_practise/streams/MessageFormManager.dart';
 
 /*
  * Overseer contains maps of all the streams 

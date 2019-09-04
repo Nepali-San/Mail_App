@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
-import 'package:mail_app_practise/Streams/CounterManager.dart';
+import 'package:mail_app_practise/streams/CounterManager.dart';
 import 'package:mail_app_practise/widgets/Observer.dart';
 
 class Calender extends StatelessWidget {

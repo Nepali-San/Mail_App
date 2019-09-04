@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mail_app_practise/Overseer.dart';
 import 'package:mail_app_practise/Provider.dart';
-import 'package:mail_app_practise/Streams/ContactManager.dart';
+import 'package:mail_app_practise/streams/ContactManager.dart';
 import 'package:mail_app_practise/model/contacts.dart';
 import 'package:mail_app_practise/widgets/ContactListBuilder.dart';
 

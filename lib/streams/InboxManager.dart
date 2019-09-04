@@ -5,8 +5,8 @@ import 'package:rxdart/rxdart.dart';
 class InboxManager {
   InboxManager() {
     inStatusFilter.stream.listen((String status) async {
-      List<Message> future = await MessageService.browse(status: status);
-      _publishSubject.add(future);
+      List<Message> messages = await MessageService.browse(status: status);
+      _publishSubject.add(messages);
     });
   }
 
