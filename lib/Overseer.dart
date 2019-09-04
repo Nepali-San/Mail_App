@@ -1,6 +1,7 @@
 import 'package:mail_app_practise/Streams/ContactManager.dart';
 import 'package:mail_app_practise/Streams/CounterManager.dart';
 import 'package:mail_app_practise/Streams/InboxManager.dart';
+import 'package:mail_app_practise/Streams/MessageFormManager.dart';
 
 /*
  * Overseer contains maps of all the streams 
@@ -14,7 +15,8 @@ class Overseer {
   Overseer() {
     register(ContactManager, ContactManager());
     register(CounterManager, CounterManager());
-    register(InboxManager,InboxManager());
+    register(InboxManager, InboxManager());
+    register(MessageFormManger, MessageFormManger());
   }
 
   register(name, object) => repository[name] = object;

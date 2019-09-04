@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mail_app_practise/Overseer.dart';
+import 'package:mail_app_practise/Provider.dart';
+import 'package:mail_app_practise/Streams/MessageFormManager.dart';
 import 'package:mail_app_practise/model/message.dart';
 import 'package:mail_app_practise/widgets/Observer.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MessageCompose extends StatefulWidget {
   @override
@@ -15,6 +17,9 @@ class _MessageComposeState extends State<MessageCompose> {
 
   @override
   Widget build(BuildContext context) {
+    MessageFormManger messageFormManger =
+        Provider.of<Overseer>(context).fetch(name: MessageFormManger);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Msg compose'),
@@ -27,15 +32,14 @@ class _MessageComposeState extends State<MessageCompose> {
             child: Column(
               children: <Widget>[
                 Observer(
-                  // * a dummy stream can be generated using Observable.just() &
-                  // * Observable.error('error msg') for error stream
-                  // * here we will validate and save data using reactive concept
-                  stream: Observable.just("data"),
+                  stream: messageFormManger.email$,
                   onSuccess: (BuildContext context, String data) {
-                    return TextField(                      
+                    return TextField(
                       decoration: InputDecoration(
                         labelText: 'To',
                       ),
+                      // * point-free style , parameter is implictly passed
+                      onChanged: messageFormManger.inemail.add,
                     );
                   },
                   onError: (BuildContext context, String err) {
