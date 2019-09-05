@@ -4,17 +4,20 @@ import 'package:rxdart/rxdart.dart';
 
 class InboxManager {
   InboxManager() {
-    inStatusFilter.stream.listen((String status) async {
+    _inStatusFilter.stream.listen((String status) async {
       List<Message> messages = await MessageService.browse(status: status);
       _publishSubject.add(messages);
     });
   }
 
-  final PublishSubject<String> inStatusFilter = PublishSubject<String>();
+  final PublishSubject<String> _inStatusFilter = PublishSubject<String>();
+  void setStatus(value) {
+    _inStatusFilter.sink.add(value);
+  }
 
   /*
-   ? instead of using two subjects , one for getting i/p and another for o/p
-   ? we can use single subject to get our i/p and use 'transformstream' to get desired o/p.
+   ? Is there any way to get string (through stream) and output a List (through sink) using a single subject ?
+   ? May be a streamTransformer will work
    */
 
   final PublishSubject<List<Message>> _publishSubject =
@@ -23,7 +26,7 @@ class InboxManager {
   Observable<List<Message>> get msgStream$ => _publishSubject.stream;
 
   void dispose() {
-    inStatusFilter.close();
+    _inStatusFilter.close();
     _publishSubject.close();
   }
 }

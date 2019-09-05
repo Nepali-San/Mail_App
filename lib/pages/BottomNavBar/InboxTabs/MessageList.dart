@@ -17,11 +17,11 @@ class MessageList extends StatelessWidget {
     Overseer overseer = Provider.of(context);
     InboxManager contactManager = overseer.fetch(name: InboxManager);
 
-    contactManager.inStatusFilter.add(status);
+    contactManager.setStatus(status);
 
     return Observer<List<Message>>(
       stream: contactManager.msgStream$,
-      onSuccess: (BuildContext context,List<Message> data) {
+      onSuccess: (BuildContext context, List<Message> data) {
         List<Message> _messages = data;
 
         return ListView.separated(
