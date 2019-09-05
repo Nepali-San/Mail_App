@@ -30,7 +30,7 @@ class MessageCompose extends StatelessWidget {
                         errorText: snapshot.error,
                       ),
                       // * point-free style , parameter is implictly passed
-                      onChanged: messageFormManger.inemail.add,
+                      onChanged: messageFormManger.setEmail,
                     );
                   },
                 ),
@@ -42,7 +42,7 @@ class MessageCompose extends StatelessWidget {
                           labelText: 'Subject',
                           errorText: snapshot.error,
                         ),
-                        onChanged: messageFormManger.inSubject.add,
+                        onChanged: messageFormManger.setSubject,
                       );
                     }),
                 Divider(
@@ -53,7 +53,7 @@ class MessageCompose extends StatelessWidget {
                     hintText: 'Body',
                   ),
                   maxLines: 5,
-                  onChanged: messageFormManger.inBody.add,
+                  onChanged: messageFormManger.setBody,
                 ),
                 SizedBox(height: 10.0),
                 StreamBuilder<bool>(

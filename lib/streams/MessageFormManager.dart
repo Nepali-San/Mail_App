@@ -7,15 +7,19 @@ import 'package:rxdart/rxdart.dart';
 class MessageFormManger with Validation {
   final _email = BehaviorSubject<String>.seeded('');
   Stream<String> get email$ => _email.stream.transform(validateEmail);
-  Sink<String> get inemail => _email.sink;
+  // Sink<String> get inemail => _email.sink;
+  // * we may expose a function instread of sink.
+  void setEmail(String value) => _email.sink.add(value);
 
   final _subject = BehaviorSubject<String>.seeded('');
   Stream<String> get subject$ => _subject.stream.transform(validateSubject);
-  Sink<String> get inSubject => _subject.sink;
+  // Sink<String> get inSubject => _subject.sink;
+  void setSubject(String value) => _subject.sink.add(value);
 
   final _body = BehaviorSubject<String>.seeded('');
   Stream<String> get body$ => _body.stream;
-  Sink<String> get inBody => _body.sink;
+  // Sink<String> get inBody => _body.sink;
+  void setBody(String value) => _body.sink.add(value);
 
   // * if all 3 stream return a value , then form is error-free
   // * combineLatest will wait for all 3 streams to pass value and then return true if valid
