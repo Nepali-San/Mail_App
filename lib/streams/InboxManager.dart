@@ -4,15 +4,15 @@ import 'package:rxdart/rxdart.dart';
 
 class InboxManager {
   InboxManager() {
-    _inStatusFilter.stream.listen((String status) async {
+    _filterStatus.stream.listen((String status) async {
       List<Message> messages = await MessageService.browse(status: status);
-      _publishSubject.add(messages);
+      _messageList.add(messages);
     });
   }
 
-  final PublishSubject<String> _inStatusFilter = PublishSubject<String>();
+  final PublishSubject<String> _filterStatus = PublishSubject<String>();
   void setStatus(value) {
-    _inStatusFilter.sink.add(value);
+    _filterStatus.sink.add(value);
   }
 
   /*
@@ -20,13 +20,13 @@ class InboxManager {
    ? May be a streamTransformer will work
    */
 
-  final PublishSubject<List<Message>> _publishSubject =
+  final PublishSubject<List<Message>> _messageList =
       PublishSubject<List<Message>>();
 
-  Observable<List<Message>> get msgStream$ => _publishSubject.stream;
+  Observable<List<Message>> get msgStream$ => _messageList.stream;
 
   void dispose() {
-    _inStatusFilter.close();
-    _publishSubject.close();
+    _filterStatus.close();
+    _messageList.close();
   }
 }
