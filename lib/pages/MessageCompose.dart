@@ -65,12 +65,14 @@ class MessageCompose extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                         color: Colors.blue,
-                        onPressed: !snapshot.hasData
-                            ? null
-                            : () {
+                        // * if value = null then use false, i.e. having null is also false
+                        // * if value = true/false then use value.
+                        onPressed: (snapshot.data ?? false)
+                            ? () {
                                 Message msg = messageFormManger.submit();
                                 Navigator.pop(context, msg);
-                              },
+                              }
+                            : null,
                       );
                     })
               ],
