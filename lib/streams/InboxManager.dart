@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 class InboxManager {
   InboxManager() {
+    // ! quickly switching the tabs will fetch wrong list...
     _filterStatus.stream.listen((String status) async {
       List<Message> messages = await MessageService.browse(status: status);
       _messageList.add(messages);
