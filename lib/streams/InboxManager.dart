@@ -11,11 +11,13 @@ class InboxManager {
     });
   }
 
+  // * this will get our event/input.
   final PublishSubject<String> _filterStatus = PublishSubject<String>();
   void setStatus(value) {
     _filterStatus.sink.add(value);
   }  
 
+  // * this will return list of message as state/output.
   final PublishSubject<List<Message>> _messageList =
       PublishSubject<List<Message>>();
 
