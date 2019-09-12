@@ -73,3 +73,4 @@
 
 #always ignore node_modules if you use it.
 node_modules
+ios/Flutter/flutter_export_environment.sh
