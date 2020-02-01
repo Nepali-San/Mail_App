@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class ContactService {
   // ? this is my localhost id , need to deploy
-  static String _url = 'http://192.168.100.12:5000/contacts';
+  static String _url = 'http://192.168.254.3:5000/contacts';
 
   static Future<List<Contact>> browse({String query}) async {
     http.Response res = await http.get('$_url?q=$query');
